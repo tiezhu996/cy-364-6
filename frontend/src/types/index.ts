@@ -30,3 +30,41 @@ export interface OverviewResponse {
   kpis: KpiItem[];
   records: OperationRecord[];
 }
+
+export interface SkuCategory {
+  id: number;
+  name: string;
+  createdAt: string;
+}
+
+export interface Sku {
+  id: number;
+  name: string;
+  spec: string;
+  barcode: string;
+  categoryId: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  category?: SkuCategory;
+}
+
+export interface CreateSkuRequest {
+  name: string;
+  spec: string;
+  barcode: string;
+  categoryId: number;
+  status?: string;
+}
+
+export interface UpdateSkuRequest {
+  name?: string;
+  spec?: string;
+  barcode?: string;
+  categoryId?: number;
+  status?: string;
+}
+
+export interface BarcodeCheckResponse {
+  available: boolean;
+}

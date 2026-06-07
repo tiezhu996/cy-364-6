@@ -9,9 +9,36 @@ datasource db {
 
 model OperationRecord {
   id         Int      @id @default(autoincrement())
-  moduleName String
-  ownerName  String
+  moduleName String   @map("module_name")
+  ownerName  String   @map("owner_name")
   status     String
   metric     String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("operation_records")
+}
+
+model SkuCategory {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  skus      Sku[]
+
+  @@map("sku_categories")
+}
+
+model Sku {
+  id         Int        @id @default(autoincrement())
+  name       String
+  spec       String
+  barcode    String     @unique
+  categoryId Int        @map("category_id")
+  category   SkuCategory @relation(fields: [categoryId], references: [id])
+  status     String     @default("active")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+
+  @@index([barcode])
+  @@index([categoryId])
+  @@map("skus")
 }
